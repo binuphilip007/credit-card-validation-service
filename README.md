@@ -4,14 +4,13 @@ Standalone Spring Boot service for verifying credit card payment status based on
 
 ## Tech Stack & Features
 
-- **Java 17 & Spring Boot 3.1.5**
+- **Java 25 & Spring Boot 4.1.1**
 - **Contract-First API Development:** OpenAPI 3.0 specification (`src/main/resources/openapi/credit-card-validation-service.yaml`) compiled via `openapi-generator-maven-plugin`.
 - **In-Memory Database:** H2 database seeded on startup with mock payment records.
-- **Observability:** Spring Boot Actuator, Micrometer Tracing with OpenTelemetry (OTLP) exporter, and structured Logback logging with trace/span ID propagation.
 
 ## Requirements
 
-- Java 17
+- Java 25
 - Maven 3.8+
 
 ## Generate OpenAPI Artifacts
@@ -124,28 +123,12 @@ Access the H2 Console at `http://localhost:9090/h2-console`:
 - **Username:** `sa`
 - **Password:** *(empty)*
 
-## Logging & Observability
+## Logging
 
 ### Logging
 Configured via `src/main/resources/logback-spring.xml`:
 - **Console Appender**
 - **Rolling File Appender:** `logs/credit-card-validation-service.log` (10 MB max file size, 14-day history, 200 MB total cap)
-- Log lines automatically include `[traceId, spanId]` for correlation across distributed transactions.
-
-### Observability & Actuator
-Spring Boot Actuator endpoints:
-```http
-GET http://localhost:9090/actuator/health
-GET http://localhost:9090/actuator/metrics
-GET http://localhost:9090/actuator/prometheus
-```
-
-Tracing exports to OpenTelemetry Collector endpoint:
-```properties
-management.tracing.enabled=true
-management.tracing.sampling.probability=1.0
-management.otlp.tracing.endpoint=http://localhost:4318/v1/traces
-```
 
 ## Test
 
